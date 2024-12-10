@@ -82,7 +82,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>java.com.pismo.TestcaseApplication</mainClass>
+					<mainClass>com.pismo.TestcaseApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -13,7 +13,6 @@ import com.pismo.gateway.account.domain.TransactionEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
