@@ -3,7 +3,6 @@ package com.pismo.entrypoint.domain;
 import com.prismo.core.account.domain.Account;
 import lombok.*;
 
-@Data
 @Builder
 @AllArgsConstructor
 public class AccountRequest {
@@ -11,7 +10,7 @@ public class AccountRequest {
     private String documentNumber;
 
     public static AccountRequest toResponse(Account account) {
-        return new AccountRequest(account.getAccountId(), account.getDocumentNumber());
+        return AccountRequest.builder().accountId(account.getAccountId()).documentNumber(account.getDocumentNumber()).build();
     }
 
     public Account toDomain() {

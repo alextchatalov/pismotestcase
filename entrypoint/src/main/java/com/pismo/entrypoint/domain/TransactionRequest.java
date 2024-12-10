@@ -16,6 +16,6 @@ public class TransactionRequest {
     private BigDecimal amount;
 
     public Transaction toDomain() {
-        return new Transaction(accountId, operationTypeId, amount);
+        return Transaction.builder().accountId(accountId).operationTypeId(operationTypeId).amount(amount).build();
     }
 }
