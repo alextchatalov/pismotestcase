@@ -1,8 +1,8 @@
-package com.prismo.core.account;
+package com.pismo.core.account;
 
 import com.pismo.gateway.account.CreateAccountGateway;
 import com.pismo.gateway.account.domain.AccountEntity;
-import com.prismo.core.account.domain.Account;
+import com.pismo.core.account.domain.Account;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,8 +15,12 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
     }
 
     @Override
-    public void execute(Account account) {
+    public Account execute(Account account) {
         AccountEntity accountEntity = new AccountEntity(account.getAccountId(), account.getDocumentNumber());
-        gateway.execute(accountEntity);
+        AccountEntity savedAccount = gateway.execute(accountEntity);
+        return Account.builder()
+                .accountId(savedAccount.getAccountId())
+                .documentNumber(account.getDocumentNumber())
+                .build();
     }
 }

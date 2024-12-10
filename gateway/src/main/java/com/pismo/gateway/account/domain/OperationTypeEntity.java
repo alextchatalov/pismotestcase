@@ -6,15 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "operation_type")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OperationTypeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String accountId;
-
-    private String documentNumber;
+    @Column(name = "operation_type_id")
+    private int id;
+    private String description;
 }

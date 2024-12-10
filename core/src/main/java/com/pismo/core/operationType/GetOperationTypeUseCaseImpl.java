@@ -1,30 +1,30 @@
 package com.pismo.core.operationType;
 
 import com.pismo.core.account.domain.Account;
+import com.pismo.core.exception.NotFoundException;
 import com.pismo.gateway.account.GetAccountGateway;
+import com.pismo.gateway.account.GetOperationTypeGateway;
 import com.pismo.gateway.account.domain.AccountEntity;
+import com.pismo.gateway.account.domain.OperationTypeEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class GetAccountUseCaseImpl implements GetAccountUseCase {
+public class GetOperationTypeUseCaseImpl implements GetOperationTypeUseCase {
 
-    private final GetAccountGateway gateway;
+    private final GetOperationTypeGateway getOperationTypeGateway;
 
-    public GetAccountUseCaseImpl(GetAccountGateway gateway) {
-        this.gateway = gateway;
+    public GetOperationTypeUseCaseImpl(GetOperationTypeGateway getOperationTypeGateway) {
+        this.getOperationTypeGateway = getOperationTypeGateway;
     }
 
     @Override
-    public Account execute(String accountId) {
-        Optional<AccountEntity> entity = gateway.execute(accountId);
-        if (entity.isEmpty()) {
-            throw new AccountNotFoundException("Account not found with ID: " + accountId);
+    public OperationTypeEntity execute(int operationTypeId) {
+        Optional<OperationTypeEntity> operationTypeEntity = getOperationTypeGateway.execute(operationTypeId);
+        if (operationTypeEntity.isEmpty()) {
+            throw new NotFoundException("Operation Type not found with ID: " + operationTypeId);
         }
-        return Account.builder()
-                .accountId(entity.get().getAccountId())
-                .documentNumber(entity.get().getDocumentNumber())
-                .build();
+        return operationTypeEntity.get();
     }
 }

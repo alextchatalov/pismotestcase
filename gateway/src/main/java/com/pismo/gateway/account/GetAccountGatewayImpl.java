@@ -2,11 +2,12 @@ package com.pismo.gateway.account;
 
 import com.pismo.gateway.account.domain.AccountEntity;
 import com.pismo.gateway.account.repository.AccountRepository;
-import com.prismo.core.account.domain.Account;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class GetAccountGatewayImpl implements CreateAccountGateway {
+public class GetAccountGatewayImpl implements GetAccountGateway {
 
     private final AccountRepository accountRepository;
 
@@ -15,8 +16,7 @@ public class GetAccountGatewayImpl implements CreateAccountGateway {
     }
 
     @Override
-    public void execute(Account account) {
-        AccountEntity accountEntity = new AccountEntity(account.getAccountId(), account.getDocumentNumber());
-        accountRepository.save(accountEntity);
+    public Optional<AccountEntity> execute(String accountId) {
+        return accountRepository.findById(accountId);
     }
 }

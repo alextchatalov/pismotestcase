@@ -2,6 +2,6 @@ package com.pismo.gateway.account;
 
 import com.pismo.gateway.account.domain.TransactionEntity;
 
-public interface CreateTransationGateway {
+public interface CreateTransactionGateway {
     TransactionEntity execute(TransactionEntity transactionEntity);
 }

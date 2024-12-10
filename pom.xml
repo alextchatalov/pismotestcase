@@ -24,6 +24,7 @@
     <modules>
         <module>entrypoint</module>
         <module>core</module>
+        <module>gateway</module>
 	</modules>
     <scm>
 		<connection/>
@@ -89,6 +90,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

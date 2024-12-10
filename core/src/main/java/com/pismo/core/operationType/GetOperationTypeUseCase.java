@@ -1,7 +1,7 @@
 package com.pismo.core.operationType;
 
-import com.pismo.core.account.domain.Account;
+import com.pismo.gateway.account.domain.OperationTypeEntity;
 
-public interface GetAccountUseCase {
-    Account execute(final String accountId);
+public interface GetOperationTypeUseCase {
+    OperationTypeEntity execute(final int operationTypeId);
 }

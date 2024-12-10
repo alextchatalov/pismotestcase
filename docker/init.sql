@@ -1,11 +1,11 @@
--- Create the account table
-CREATE TABLE IF NOT EXISTS account
+-- Create the accounts table
+CREATE TABLE IF NOT EXISTS accounts
 (
-    Account_ID
-    INT
+    account_id
+    VARCHAR
     PRIMARY
     KEY,
-    Document_Number
+    document_number
     VARCHAR
 (
     50
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS account
     );
 
 -- Create an index for Account_ID
-CREATE INDEX idx_account_id ON account (Account_ID);
+CREATE INDEX idx_account_id ON accounts (account_id);
 
 
 -- Create the operation_type table
@@ -43,8 +43,8 @@ CREATE INDEX idx_operation_type_id ON operation_type (operation_type_id);
 CREATE TABLE transaction
 (
     transaction_id    VARCHAR(36)                         NOT NULL PRIMARY KEY, -- UUID for transaction_id
-    account_id        VARCHAR(36)                         NOT NULL,             -- Foreign key to accounts table
-    operation_type_id VARCHAR(36)                         NOT NULL,             -- Foreign key to operation_type table
+    account_id        VARCHAR                             NOT NULL,             -- Foreign key to accounts table
+    operation_type_id INT                                 NOT NULL,             -- Foreign key to operation_type table
     amount            DECIMAL(19, 4)                      NOT NULL,             -- High-precision BigDecimal value
     event_date        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,             -- Date and time of the event
 
@@ -57,4 +57,4 @@ CREATE TABLE transaction
 CREATE INDEX idx_transaction_id ON transaction (transaction_id);
 
 -- Create an index for account_id
-CREATE INDEX idx_account_id ON transaction (account_id);
+CREATE INDEX idx_transaction_account_id ON transaction (account_id);

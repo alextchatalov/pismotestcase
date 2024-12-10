@@ -1,20 +1,20 @@
 package com.pismo.gateway.account;
 
-import com.pismo.gateway.account.domain.AccountEntity;
-import com.pismo.gateway.account.repository.AccountRepository;
+import com.pismo.gateway.account.domain.TransactionEntity;
+import com.pismo.gateway.account.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateTransactionGatewayImpl implements GetAccountGateway {
+public class CreateTransactionGatewayImpl implements CreateTransactionGateway {
 
-    private final AccountRepository accountRepository;
+    private final TransactionRepository repository;
 
-    public CreateTransactionGatewayImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public CreateTransactionGatewayImpl(TransactionRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public AccountEntity execute(String accountId) {
-        return accountRepository.findById(accountId).orElse(null);
+    public TransactionEntity execute(TransactionEntity transactionEntity) {
+        return repository.save(transactionEntity);
     }
 }

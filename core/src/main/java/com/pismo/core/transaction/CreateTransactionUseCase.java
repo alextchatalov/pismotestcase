@@ -1,8 +1,8 @@
-package com.prismo.core.transaction;
+package com.pismo.core.transaction;
 
-import com.prismo.core.account.domain.Account;
-import com.prismo.core.transaction.domain.Transaction;
+import com.pismo.core.transaction.domain.Transaction;
 
 public interface CreateTransactionUseCase {
-    void execute(final Transaction transaction);
+
+    Transaction execute(final Transaction transaction);
 }

@@ -1,6 +1,9 @@
 package com.pismo.entrypoint.domain;
 
-import com.prismo.core.transaction.domain.Transaction;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pismo.core.operationType.OperationType;
+import com.pismo.core.transaction.domain.Transaction;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +14,29 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 public class TransactionRequest {
-    private int accountId;
+    @JsonProperty("account_id")
+    @NotBlank(message = "Account ID must not be null or empty")
+    private String accountId;
+    @JsonProperty("operation_type_id")
+    @NotBlank(message = "Operation Type ID must not be null or empty")
     private int operationTypeId;
+    @NotBlank(message = "Amount must not be null or empty")
     private BigDecimal amount;
 
+    public static TransactionRequest toResponse(Transaction transaction) {
+        return TransactionRequest.builder()
+                .accountId(transaction.getAccountId())
+                .operationTypeId(transaction.getOperationType().getOperationTypeId())
+                .amount(transaction.getAmount())
+                .build();
+    }
+
     public Transaction toDomain() {
-        return Transaction.builder().accountId(accountId).operationTypeId(operationTypeId).amount(amount).build();
+        return Transaction.builder()
+                .accountId(accountId)
+                .operationType(OperationType.builder()
+                        .operationTypeId(operationTypeId)
+                        .build())
+                .amount(amount).build();
     }
 }

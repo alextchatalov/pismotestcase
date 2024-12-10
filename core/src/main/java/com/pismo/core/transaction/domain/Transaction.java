@@ -1,5 +1,6 @@
-package com.prismo.core.transaction.domain;
+package com.pismo.core.transaction.domain;
 
+import com.pismo.core.operationType.OperationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +10,9 @@ import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Builder
+@Getter
 public class Transaction {
-    private int accountId;
-    private int operationTypeId;
+    private String accountId;
+    private OperationType operationType;
     private BigDecimal amount;
 }

@@ -1,4 +1,4 @@
-package com.prismo.core.account.domain;
+package com.pismo.core.account.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

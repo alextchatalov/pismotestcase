@@ -1,7 +1,9 @@
 package com.pismo.gateway.account;
 
-import com.prismo.core.account.domain.Account;
+import com.pismo.gateway.account.domain.AccountEntity;
+
+import java.util.Optional;
 
 public interface GetAccountGateway {
-    void execute(Account account);
+    Optional<AccountEntity> execute(String accountID);
 }
