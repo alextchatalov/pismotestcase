@@ -1,7 +1,6 @@
-package com.pismo.gateway.account.repository;
+package com.pismo.entrypoint.account.repository;
 
-import com.pismo.gateway.account.domain.OperationTypeEntity;
-import com.pismo.gateway.account.domain.TransactionEntity;
+import com.pismo.entrypoint.account.domain.OperationTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

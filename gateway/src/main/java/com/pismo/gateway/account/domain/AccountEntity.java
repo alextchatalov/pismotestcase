@@ -1,4 +1,4 @@
-package com.pismo.gateway.account.domain;
+package com.pismo.entrypoint.account.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

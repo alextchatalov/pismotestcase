@@ -1,7 +1,7 @@
-package com.pismo.gateway.account;
+package com.pismo.entrypoint.account;
 
-import com.pismo.gateway.account.domain.TransactionEntity;
-import com.pismo.gateway.account.repository.TransactionRepository;
+import com.pismo.entrypoint.account.domain.TransactionEntity;
+import com.pismo.entrypoint.account.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
