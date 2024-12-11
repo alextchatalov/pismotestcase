@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pismo.core.account.domain.Account;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Builder
 @AllArgsConstructor
+@Getter
 public class AccountRequest {
     @JsonProperty("account_id")
     private String accountId;

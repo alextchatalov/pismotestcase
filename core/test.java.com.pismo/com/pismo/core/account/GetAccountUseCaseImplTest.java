@@ -30,10 +30,7 @@ class GetAccountUseCaseImplTest {
     void testExecute_ValidAccountId_ReturnsAccount() {
         // Arrange
         String accountId = "12345";
-        AccountEntity mockAccountEntity = AccountEntity.builder()
-                .accountId(accountId)
-                .documentNumber("98765432100")
-                .build();
+        AccountEntity mockAccountEntity = new AccountEntity("12345", "98765432100");
         when(gateway.execute(accountId)).thenReturn(Optional.of(mockAccountEntity));
 
         // Act

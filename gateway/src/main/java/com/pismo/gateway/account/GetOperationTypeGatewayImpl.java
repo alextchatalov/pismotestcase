@@ -1,7 +1,7 @@
-package com.pismo.entrypoint.account;
+package com.pismo.gateway.account;
 
-import com.pismo.entrypoint.account.domain.OperationTypeEntity;
-import com.pismo.entrypoint.account.repository.OperationTypeRepository;
+import com.pismo.gateway.account.domain.OperationTypeEntity;
+import com.pismo.gateway.account.repository.OperationTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

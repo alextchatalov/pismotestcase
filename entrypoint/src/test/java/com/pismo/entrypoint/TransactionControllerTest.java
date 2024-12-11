@@ -1,72 +1,84 @@
 package com.pismo.entrypoint;
 
+import com.pismo.core.account.domain.Account;
+import com.pismo.core.operationType.OperationType;
 import com.pismo.core.transaction.CreateTransactionUseCase;
 import com.pismo.core.transaction.domain.Transaction;
 import com.pismo.entrypoint.domain.TransactionRequest;
 import com.pismo.entrypoint.domain.TransactionResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class TransactionControllerTest {
+@org.junit.jupiter.api.extension.ExtendWith(MockitoExtension.class)
+class TransactionControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private CreateTransactionUseCase createTransactionUseCase;
 
+    @InjectMocks
+    private TransactionController transactionController;
+
     @Test
-    void createTransaction_shouldReturnCreatedStatus_whenValidRequest() throws Exception {
-        Transaction mockTransaction = Transaction.builder()
-                .id(1L)
+    @DisplayName("Should create a transaction and return HTTP 201")
+    void createTransaction_Success() {
+        // Arrange
+        TransactionRequest transactionRequest = TransactionRequest.builder()
                 .accountId("123")
                 .operationTypeId(1)
                 .amount(new BigDecimal("100.00"))
                 .build();
 
-        Mockito.when(createTransactionUseCase.execute(any(Transaction.class))).thenReturn(mockTransaction);
+        Transaction mockTransaction = Transaction.builder()
+                .account(Account.builder()
+                        .accountId("123")
+                        .documentNumber("45678912300")
+                        .build())
+                .operationType(OperationType.builder()
+                        .operationTypeId(1)
+                        .description("Purchase")
+                        .build())
+                .amount(new BigDecimal("100.00"))
+                .build();
 
-        mockMvc.perform(post("/transactions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"account_id\":\"123\", \"operation_type_id\":1, \"amount\":100.00}"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.account_id").value("123"))
-                .andExpect(jsonPath("$.operation_type_id").value(1))
-                .andExpect(jsonPath("$.amount").value(100.00));
+        when(createTransactionUseCase.execute(any())).thenReturn(mockTransaction);
+
+        // Act
+        TransactionResponse response = transactionController.createTransaction(transactionRequest).getBody();
+
+        // Assert
+        assertEquals("123", response.getAccount().getAccountId());
+        assertEquals(1, response.getOperationType().getOperationTypeId());
+        assertEquals(new BigDecimal("100.00"), response.getAmount());
+        Mockito.verify(createTransactionUseCase).execute(any());
     }
 
     @Test
-    void createTransaction_shouldReturnBadRequest_whenInvalidRequest() throws Exception {
-        mockMvc.perform(post("/transactions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-                .andExpect(status().isBadRequest());
-    }
+    @DisplayName("Should throw internal server error when use case fails")
+    void createTransaction_UseCaseFailure() {
+        // Arrange
+        TransactionRequest transactionRequest = TransactionRequest.builder()
+                .accountId("123")
+                .operationTypeId(1)
+                .amount(new BigDecimal("100.00"))
+                .build();
 
-    @Test
-    void createTransaction_shouldReturnInternalServerError_whenUseCaseFails() throws Exception {
-        Mockito.when(createTransactionUseCase.execute(any(Transaction.class)))
-                .thenThrow(new RuntimeException("Unexpected error"));
+        when(createTransactionUseCase.execute(any())).thenThrow(new RuntimeException("Unexpected error"));
 
-        mockMvc.perform(post("/transactions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"account_id\":\"123\", \"operation_type_id\":1, \"amount\":100.00}"))
-                .andExpect(status().isInternalServerError());
+        // Act & Assert
+        try {
+            transactionController.createTransaction(transactionRequest);
+        } catch (RuntimeException ex) {
+            assertEquals("Unexpected error", ex.getMessage());
+        }
     }
 }

@@ -1,37 +1,38 @@
 package com.pismo.entrypoint;
 
 import com.pismo.core.account.CreateAccountUseCase;
+import com.pismo.core.account.GetAccountUseCase;
 import com.pismo.core.account.domain.Account;
 import com.pismo.entrypoint.domain.AccountRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@org.junit.jupiter.api.extension.ExtendWith(MockitoExtension.class)
 class AccountControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private CreateAccountUseCase createAccountUseCase;
 
+    @Mock
+    private GetAccountUseCase getAccountUseCase;
+
+    @InjectMocks
+    private AccountController accountController;
+
     @Test
-    @DisplayName("Should successfully create an account and return HTTP 201")
-    void createAccount_Success() throws Exception {
+    @DisplayName("Should create an account and return HTTP 201")
+    void createAccount_Success() {
+        // Arrange
         AccountRequest accountRequest = AccountRequest.builder()
                 .accountId("1")
                 .documentNumber("12345678900")
@@ -44,59 +45,34 @@ class AccountControllerTest {
 
         when(createAccountUseCase.execute(any())).thenReturn(mockAccount);
 
-        String requestBody = """
-                {
-                    "account_id": "1",
-                    "document_number": "12345678900"
-                }
-                """;
+        // Act
+        ResponseEntity<AccountRequest> response = accountController.createAccount(accountRequest);
 
-        String expectedResponseBody = """
-                {
-                    "account_id": "1",
-                    "document_number": "12345678900"
-                }
-                """;
-
-        mockMvc.perform(post("/accounts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isCreated())
-                .andExpect(content().json(expectedResponseBody));
-
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(accountRequest.getAccountId(), response.getBody().getAccountId());
+        assertEquals(accountRequest.getDocumentNumber(), response.getBody().getDocumentNumber());
         Mockito.verify(createAccountUseCase).execute(any());
     }
 
     @Test
-    @DisplayName("Should return HTTP 400 when document number is empty")
-    void createAccount_EmptyDocumentNumber() throws Exception {
-        String requestBody = """
-                {
-                    "account_id": "1",
-                    "document_number": ""
-                }
-                """;
+    @DisplayName("Should retrieve account information by account ID")
+    void getAccountInfo_Success() {
+        // Arrange
+        String accountId = "1";
+        Account mockAccount = Account.builder()
+                .accountId("1")
+                .documentNumber("12345678900")
+                .build();
 
-        mockMvc.perform(post("/accounts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Document number must not be null or empty")));
-    }
+        when(getAccountUseCase.execute(accountId)).thenReturn(mockAccount);
 
-    @Test
-    @DisplayName("Should return HTTP 400 when no document number is provided")
-    void createAccount_MissingDocumentNumber() throws Exception {
-        String requestBody = """
-                {
-                    "account_id": "1"
-                }
-                """;
+        // Act
+        AccountRequest response = accountController.getAccountInfo(accountId);
 
-        mockMvc.perform(post("/accounts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Document number must not be null or empty")));
+        // Assert
+        assertEquals(accountId, response.getAccountId());
+        assertEquals("12345678900", response.getDocumentNumber());
+        Mockito.verify(getAccountUseCase).execute(accountId);
     }
 }

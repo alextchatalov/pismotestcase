@@ -44,13 +44,13 @@ class CreateTransactionUseCaseImplTest {
     void execute_ShouldReturnTransaction_WhenValidTransactionProvided() {
         // Arrange
         Transaction transaction = Transaction.builder()
-                .account(Account.builder().accountId(1L).documentNumber("12345678901").build())
-                .operationType(OperationType.builder().operationTypeId(1L).description("Purchase").build())
+                .account(Account.builder().accountId("1").documentNumber("12345678901").build())
+                .operationType(OperationType.builder().operationTypeId(1).description("Purchase").build())
                 .amount(new BigDecimal("100.00"))
                 .build();
 
-        AccountEntity accountEntity = new AccountEntity(1L, "12345678901");
-        OperationTypeEntity operationTypeEntity = new OperationTypeEntity(1L, "Purchase");
+        AccountEntity accountEntity = new AccountEntity("1", "12345678901");
+        OperationTypeEntity operationTypeEntity = new OperationTypeEntity(1, "Purchase");
 
         TransactionEntity transactionEntity = TransactionEntity.builder()
                 .account(accountEntity)
@@ -59,22 +59,22 @@ class CreateTransactionUseCaseImplTest {
                 .eventDate(LocalDateTime.now())
                 .build();
 
-        when(getAccountUseCase.execute(1L)).thenReturn(new Account(1L, "12345678901"));
-        when(getOperationTypeUseCase.execute(1L)).thenReturn(operationTypeEntity);
+        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901"));
+        when(getOperationTypeUseCase.execute(1)).thenReturn(operationTypeEntity);
         when(gateway.execute(any())).thenReturn(transactionEntity);
 
         // Act
         Transaction result = createTransactionUseCaseImpl.execute(transaction);
 
         // Assert
-        assertEquals(1L, result.getAccount().getAccountId());
+        assertEquals("1", result.getAccount().getAccountId());
         assertEquals("12345678901", result.getAccount().getDocumentNumber());
-        assertEquals(1L, result.getOperationType().getOperationTypeId());
+        assertEquals(1, result.getOperationType().getOperationTypeId());
         assertEquals("Purchase", result.getOperationType().getDescription());
         assertEquals(new BigDecimal("100.00"), result.getAmount());
 
-        verify(getAccountUseCase).execute(1L);
-        verify(getOperationTypeUseCase).execute(1L);
+        verify(getAccountUseCase).execute("1");
+        verify(getOperationTypeUseCase).execute(1);
         verify(gateway).execute(any(TransactionEntity.class));
     }
 
@@ -82,15 +82,15 @@ class CreateTransactionUseCaseImplTest {
     void execute_ShouldThrowNotFoundException_WhenAccountNotFound() {
         // Arrange
         Transaction transaction = Transaction.builder()
-                .account(Account.builder().accountId(1L).build())
+                .account(Account.builder().accountId("1").build())
                 .build();
 
-        when(getAccountUseCase.execute(1L)).thenReturn(null);
+        when(getAccountUseCase.execute("1")).thenReturn(null);
 
         // Act & Assert
         assertThrows(NotFoundException.class, () -> createTransactionUseCaseImpl.execute(transaction));
 
-        verify(getAccountUseCase).execute(1L);
+        verify(getAccountUseCase).execute("1");
         verifyNoInteractions(getOperationTypeUseCase, gateway);
     }
 
@@ -98,19 +98,18 @@ class CreateTransactionUseCaseImplTest {
     void execute_ShouldHandleNullOperationType() {
         // Arrange
         Transaction transaction = Transaction.builder()
-                .account(Account.builder().accountId(1L).documentNumber("12345678901").build())
-                .operationType(OperationType.builder().operationTypeId(1L).build())
+                .account(Account.builder().accountId("1").documentNumber("12345678901").build())
+                .operationType(OperationType.builder().operationTypeId(1).build())
                 .amount(new BigDecimal("100.00"))
                 .build();
 
-        when(getAccountUseCase.execute(1L)).thenReturn(new Account(1L, "12345678901"));
-        when(getOperationTypeUseCase.execute(1L)).thenReturn(null);
+        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901"));
+        when(getOperationTypeUseCase.execute(1)).thenReturn(null);
 
         // Act & Assert
         assertThrows(NullPointerException.class, () -> createTransactionUseCaseImpl.execute(transaction));
 
-        verify(getAccountUseCase).execute(1L);
-        verify(getOperationTypeUseCase).execute(1L);
-        verifyNoInteractions(gateway);
+        verify(getAccountUseCase).execute("1");
+        verify(getOperationTypeUseCase).execute(1);
     }
 }

@@ -1,10 +1,7 @@
 package com.pismo.core.operationType;
 
-import com.pismo.core.account.domain.Account;
 import com.pismo.core.exception.NotFoundException;
-import com.pismo.gateway.account.GetAccountGateway;
 import com.pismo.gateway.account.GetOperationTypeGateway;
-import com.pismo.gateway.account.domain.AccountEntity;
 import com.pismo.gateway.account.domain.OperationTypeEntity;
 import org.springframework.stereotype.Service;
 

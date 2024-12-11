@@ -27,12 +27,12 @@ class CreateAccountUseCaseImplTest {
     @Test
     void shouldCreateAccountSuccessfully() {
         Account inputAccount = Account.builder()
-                .accountId(1L)
+                .accountId("1")
                 .documentNumber("12345678900")
                 .build();
 
-        AccountEntity mockAccountEntity = new AccountEntity(1L, "12345678900");
-        AccountEntity savedAccountEntity = new AccountEntity(1L, "12345678900");
+        AccountEntity mockAccountEntity = new AccountEntity("1", "12345678900");
+        AccountEntity savedAccountEntity = new AccountEntity("1", "12345678900");
 
         when(createAccountGateway.execute(any(AccountEntity.class))).thenReturn(savedAccountEntity);
 

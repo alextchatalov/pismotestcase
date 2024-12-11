@@ -1,7 +1,7 @@
-package com.pismo.entrypoint.account;
+package com.pismo.gateway.account;
 
-import com.pismo.entrypoint.account.domain.AccountEntity;
-import com.pismo.entrypoint.account.repository.AccountRepository;
+import com.pismo.gateway.account.domain.AccountEntity;
+import com.pismo.gateway.account.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package com.pismo.entrypoint.account;
+package com.pismo.gateway.account;
 
-import com.pismo.entrypoint.account.domain.OperationTypeEntity;
+import com.pismo.gateway.account.domain.OperationTypeEntity;
 
 import java.util.Optional;
 

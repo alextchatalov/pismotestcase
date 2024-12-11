@@ -3,6 +3,7 @@ package com.pismo.core.account;
 import com.pismo.gateway.account.CreateAccountGateway;
 import com.pismo.gateway.account.domain.AccountEntity;
 import com.pismo.core.account.domain.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

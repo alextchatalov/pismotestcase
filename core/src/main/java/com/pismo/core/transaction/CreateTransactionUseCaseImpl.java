@@ -1,12 +1,12 @@
 package com.pismo.core.transaction;
 
-import com.pismo.core.account.GetAccountUseCaseImpl;
+import com.pismo.core.account.GetAccountUseCase;
 import com.pismo.core.account.domain.Account;
 import com.pismo.core.exception.NotFoundException;
 import com.pismo.core.operationType.GetOperationTypeUseCase;
 import com.pismo.core.operationType.OperationType;
 import com.pismo.core.transaction.domain.Transaction;
-import com.pismo.gateway.account.CreateTransactionGatewayImpl;
+import com.pismo.gateway.account.CreateTransactionGateway;
 import com.pismo.gateway.account.domain.AccountEntity;
 import com.pismo.gateway.account.domain.OperationTypeEntity;
 import com.pismo.gateway.account.domain.TransactionEntity;
@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @Service
 public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
 
-    private final CreateTransactionGatewayImpl gateway;
-    private final GetAccountUseCaseImpl getAccountUseCase;
+    private final CreateTransactionGateway gateway;
+    private final GetAccountUseCase getAccountUseCase;
     private final GetOperationTypeUseCase getOperationTypeUseCase;
 
-    public CreateTransactionUseCaseImpl(CreateTransactionGatewayImpl gateway, GetAccountUseCaseImpl getAccountUseCase, GetOperationTypeUseCase getOperationTypeUseCase) {
+    public CreateTransactionUseCaseImpl(CreateTransactionGateway gateway, GetAccountUseCase getAccountUseCase, GetOperationTypeUseCase getOperationTypeUseCase) {
         this.gateway = gateway;
         this.getAccountUseCase = getAccountUseCase;
         this.getOperationTypeUseCase = getOperationTypeUseCase;

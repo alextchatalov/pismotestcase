@@ -28,7 +28,7 @@ class GetOperationTypeUseCaseImplTest {
     @Test
     void shouldReturnOperationTypeEntityWhenFound() {
         int operationTypeId = 1;
-        OperationTypeEntity expectedEntity = new OperationTypeEntity(operationTypeId);
+        OperationTypeEntity expectedEntity = new OperationTypeEntity(operationTypeId, "Test");
 
         when(getOperationTypeGateway.execute(operationTypeId)).thenReturn(Optional.of(expectedEntity));
 

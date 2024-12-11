@@ -3,7 +3,7 @@ package com.pismo.entrypoint;
 import com.pismo.core.account.CreateAccountUseCase;
 import com.pismo.core.account.GetAccountUseCase;
 import com.pismo.core.account.domain.Account;
-import com.pismo.gateway.account.domain.AccountEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class AccountController {
     }
 
     @PostMapping("/accounts")
-    public ResponseEntity<AccountRequest> createAccount(@RequestBody AccountRequest accountRequest) {
+    public ResponseEntity<AccountRequest> createAccount(@RequestBody @Valid AccountRequest accountRequest) {
         Account account = createAccountUseCase.execute(accountRequest.toDomain());
         return new ResponseEntity<>(AccountRequest.toResponse(account), HttpStatus.CREATED);
     }

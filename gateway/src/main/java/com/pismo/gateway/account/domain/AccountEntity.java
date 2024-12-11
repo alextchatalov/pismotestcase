@@ -1,8 +1,9 @@
-package com.pismo.entrypoint.account.domain;
+package com.pismo.gateway.account.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class AccountEntity {
 
     @Id
