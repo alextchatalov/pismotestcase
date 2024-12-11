@@ -92,7 +92,6 @@ curl --location 'localhost:8080/transactions' \
     \"amount\": 555.34
 }"
 ```
-Replace `account_id` with the actual account ID, `operation_type_id` with the desired operation type (e.g., `4`), and `amount` with the transaction value (e.g., `555.34`) to create a new transaction.
 ---
 
 ## Notes
