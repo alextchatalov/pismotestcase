@@ -52,7 +52,7 @@ Once Docker Compose is running:
 After building the Docker image, run the container with:
 
 ```bash
-docker run -p 8080:8080 pismo-tech-test-case
+   docker run -p 8080:8080 --network=docker_db-network -e DATABASE_HOST=db:5432 pismo-tech-test-case
 ```
 
 This will start the application and map it to port `8080` on your local machine.
