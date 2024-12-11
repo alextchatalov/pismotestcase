@@ -29,15 +29,17 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
 
     @Override
     public Transaction execute(Transaction transaction) {
-        TransactionEntity transactionEntity = TransactionEntity.builder()
-                .account(getAccount(transaction))
-                .operationType(getOperationType(transaction))
-                .amount(transaction.getAmount())
-                .eventDate(LocalDateTime.now())
-                .build();
+        TransactionEntity transactionEntity = createTransactionEntity(transaction);
         TransactionEntity savedTransaction = gateway.execute(transactionEntity);
+        return buildTransaction(savedTransaction);
+    }
+
+    private static Transaction buildTransaction(TransactionEntity savedTransaction) {
         return Transaction.builder()
-                .accountId(savedTransaction.getAccount().getAccountId())
+                .account(Account.builder()
+                        .accountId(savedTransaction.getAccount().getAccountId())
+                        .documentNumber(savedTransaction.getAccount().getDocumentNumber())
+                        .build())
                 .amount(savedTransaction.getAmount())
                 .operationType(
                         OperationType.builder()
@@ -47,14 +49,23 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
                 .build();
     }
 
+    private TransactionEntity createTransactionEntity(Transaction transaction) {
+        return TransactionEntity.builder()
+                .account(getAccount(transaction))
+                .operationType(getOperationType(transaction))
+                .amount(transaction.getAmount())
+                .eventDate(LocalDateTime.now())
+                .build();
+    }
+
     private OperationTypeEntity getOperationType(Transaction transaction) {
         return getOperationTypeUseCase.execute(transaction.getOperationType().getOperationTypeId());
     }
 
     private AccountEntity getAccount(Transaction transaction) {
-        Account account = getAccountUseCase.execute(transaction.getAccountId());
+        Account account = getAccountUseCase.execute(transaction.getAccount().getAccountId());
         if (account == null) {
-            throw new NotFoundException("Account not found with ID: " + transaction.getAccountId());
+            throw new NotFoundException("Account not found with ID: " + transaction.getAccount().getAccountId());
         }
         return new AccountEntity(account.getAccountId(), account.getDocumentNumber());
     }

@@ -4,9 +4,7 @@ spring:
   application:
     name: pismoTestCase
   datasource:
-    #url: jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true -- for local
-    url: jdbc:postgresql://${DATABASE_HOST}/postgres?createDatabaseIfNotExist=true
-    #url: ${SPRING_DATASOURCE_URL}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5432}/postgres?createDatabaseIfNotExist=true
     username: ${DATABASE_USER:postgres}
     password: ${DATABASE_PASSWORD:123}
     driver-class-name: org.postgresql.Driver # Explicitly declare the driver class name

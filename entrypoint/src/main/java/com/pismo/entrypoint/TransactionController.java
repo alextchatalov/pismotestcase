@@ -3,6 +3,7 @@ package com.pismo.entrypoint;
 import com.pismo.core.transaction.domain.Transaction;
 import com.pismo.entrypoint.domain.TransactionRequest;
 import com.pismo.core.transaction.CreateTransactionUseCase;
+import com.pismo.entrypoint.domain.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class TransactionController {
 
 
     @PostMapping("/transactions")
-    public ResponseEntity<TransactionRequest> createTransaction(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionResponse> createTransaction(@RequestBody TransactionRequest transactionRequest) {
         Transaction transaction = createTransactionUseCase.execute(transactionRequest.toDomain());
-        return new ResponseEntity<>(TransactionRequest.toResponse(transaction), HttpStatus.CREATED);
+        return new ResponseEntity<>(TransactionResponse.toResponse(transaction), HttpStatus.CREATED);
     }
 }

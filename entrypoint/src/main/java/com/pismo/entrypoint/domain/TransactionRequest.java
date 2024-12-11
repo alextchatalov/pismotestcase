@@ -1,6 +1,7 @@
 package com.pismo.entrypoint.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pismo.core.account.domain.Account;
 import com.pismo.core.operationType.OperationType;
 import com.pismo.core.transaction.domain.Transaction;
 import jakarta.validation.constraints.NotBlank;
@@ -23,17 +24,9 @@ public class TransactionRequest {
     @NotBlank(message = "Amount must not be null or empty")
     private BigDecimal amount;
 
-    public static TransactionRequest toResponse(Transaction transaction) {
-        return TransactionRequest.builder()
-                .accountId(transaction.getAccountId())
-                .operationTypeId(transaction.getOperationType().getOperationTypeId())
-                .amount(transaction.getAmount())
-                .build();
-    }
-
     public Transaction toDomain() {
         return Transaction.builder()
-                .accountId(accountId)
+                .account(Account.builder().accountId(accountId).build())
                 .operationType(OperationType.builder()
                         .operationTypeId(operationTypeId)
                         .build())

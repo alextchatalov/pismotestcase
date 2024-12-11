@@ -1,5 +1,6 @@
 package com.pismo.core.transaction.domain;
 
+import com.pismo.core.account.domain.Account;
 import com.pismo.core.operationType.OperationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 public class Transaction {
-    private String accountId;
+    private Account account;
     private OperationType operationType;
     private BigDecimal amount;
 }
