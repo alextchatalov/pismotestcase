@@ -52,13 +52,13 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
     private TransactionEntity createTransactionEntity(Transaction transaction) {
         return TransactionEntity.builder()
                 .account(getAccount(transaction))
-                .operationType(getOperationType(transaction))
+                .operationType(getOperationType(transaction).toEntity())
                 .amount(transaction.getAmount())
                 .eventDate(LocalDateTime.now())
                 .build();
     }
 
-    private OperationTypeEntity getOperationType(Transaction transaction) {
+    private OperationType getOperationType(Transaction transaction) {
         return getOperationTypeUseCase.execute(transaction.getOperationType().getOperationTypeId());
     }
 

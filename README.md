@@ -25,7 +25,7 @@ To run this project successfully, follow these steps:
 3. Run the following command to initialize Docker Compose:
 
    ```bash
-   docker compose up
+   cd docker && docker compose up
    ```
 
    This will start the required services, including the PostgreSQL database.
@@ -52,7 +52,12 @@ Once Docker Compose is running:
 After building the Docker image, run the container with:
 
 ```bash
-   docker run -p 8080:8080 --network=docker_db-network -e DATABASE_HOST=db:5432 pismo-tech-test-case
+docker run -p 8080:8080 --network=docker_db-network \
+  -e DATABASE_HOST=db \
+  -e DATABASE_USER=postgres \
+  -e DATABASE_PASSWORD=123 \
+  -e REDIS_HOST=redis \
+  pismo-tech-test-case
 ```
 
 This will start the application and map it to port `8080` on your local machine.

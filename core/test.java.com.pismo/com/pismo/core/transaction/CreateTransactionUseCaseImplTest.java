@@ -60,7 +60,7 @@ class CreateTransactionUseCaseImplTest {
                 .build();
 
         when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901"));
-        when(getOperationTypeUseCase.execute(1)).thenReturn(operationTypeEntity);
+        when(getOperationTypeUseCase.execute(1)).thenReturn(OperationType.builder().operationTypeId(operationTypeEntity.getId()).description(operationTypeEntity.getDescription()).build());
         when(gateway.execute(any())).thenReturn(transactionEntity);
 
         // Act
