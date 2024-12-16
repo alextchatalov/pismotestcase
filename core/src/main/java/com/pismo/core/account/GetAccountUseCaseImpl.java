@@ -26,6 +26,7 @@ public class GetAccountUseCaseImpl implements GetAccountUseCase {
         return Account.builder()
                 .accountId(entity.get().getAccountId())
                 .documentNumber(entity.get().getDocumentNumber())
+                .version(entity.get().getVersion())
                 .build();
     }
 }

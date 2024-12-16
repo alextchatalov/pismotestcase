@@ -59,7 +59,7 @@ class CreateTransactionUseCaseImplTest {
                 .eventDate(LocalDateTime.now())
                 .build();
 
-        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901"));
+        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901", 0));
         when(getOperationTypeUseCase.execute(1)).thenReturn(OperationType.builder().operationTypeId(operationTypeEntity.getId()).description(operationTypeEntity.getDescription()).build());
         when(gateway.execute(any())).thenReturn(transactionEntity);
 
@@ -103,7 +103,7 @@ class CreateTransactionUseCaseImplTest {
                 .amount(new BigDecimal("100.00"))
                 .build();
 
-        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901"));
+        when(getAccountUseCase.execute("1")).thenReturn(new Account("1", "12345678901", 0));
         when(getOperationTypeUseCase.execute(1)).thenReturn(null);
 
         // Act & Assert

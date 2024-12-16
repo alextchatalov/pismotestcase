@@ -29,7 +29,7 @@ class CreateAccountGatewayImplTest {
     @Test
     void execute_shouldCallSaveWithCorrectEntity() {
         // Arrange
-        AccountEntity mockAccount = new AccountEntity("1213", "test");
+        AccountEntity mockAccount = new AccountEntity("test");
 
         when(accountRepository.save(any(AccountEntity.class))).thenReturn(mockAccount);
 
@@ -48,9 +48,9 @@ class CreateAccountGatewayImplTest {
     @Test
     void execute_shouldReturnSavedAccountEntity() {
         // Arrange
-        AccountEntity inputAccount = new AccountEntity("2222", "test");
+        AccountEntity inputAccount = new AccountEntity( "test");
 
-        AccountEntity savedAccount = new AccountEntity("3333", "test");
+        AccountEntity savedAccount = new AccountEntity("test");
 
         when(accountRepository.save(inputAccount)).thenReturn(savedAccount);
 

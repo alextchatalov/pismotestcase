@@ -39,6 +39,7 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
                 .account(Account.builder()
                         .accountId(savedTransaction.getAccount().getAccountId())
                         .documentNumber(savedTransaction.getAccount().getDocumentNumber())
+                        .version(savedTransaction.getAccount().getVersion())
                         .build())
                 .amount(savedTransaction.getAmount())
                 .operationType(
@@ -67,6 +68,6 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
         if (account == null) {
             throw new NotFoundException("Account not found with ID: " + transaction.getAccount().getAccountId());
         }
-        return new AccountEntity(account.getAccountId(), account.getDocumentNumber());
+        return new AccountEntity(account.getAccountId(), account.getDocumentNumber(), account.getVersion());
     }
 }

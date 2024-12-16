@@ -106,8 +106,4 @@ curl --location 'localhost:8080/transactions' \
 
 ## Final Observation About the Project
 
-During this project, I did not focus on creating all the test scenarios due to time constraints. Instead, I implemented basic unit tests to cover essential functionality. There are, however, many other types of tests that could be added, such as integration tests using tools like **Testcontainers** to integrate with the database.
-
-Another observation is regarding the `operation_type`. I believe this is a domain table and could benefit from caching, especially since it is accessed every time a new transaction is created. However, due to time constraints, I was not able to implement this feature.
-
-There is room to further enhance this project by addressing these points in the future.
+During this project, I did not focus on creating all the test scenarios due to time constraints. Instead, I implemented basic unit tests and integration to cover essential functionality.

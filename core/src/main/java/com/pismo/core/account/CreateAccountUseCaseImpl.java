@@ -17,7 +17,7 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
 
     @Override
     public Account execute(Account account) {
-        AccountEntity accountEntity = new AccountEntity(account.getAccountId(), account.getDocumentNumber());
+        AccountEntity accountEntity = new AccountEntity(account.getDocumentNumber());
         AccountEntity savedAccount = gateway.execute(accountEntity);
         return Account.builder()
                 .accountId(savedAccount.getAccountId())

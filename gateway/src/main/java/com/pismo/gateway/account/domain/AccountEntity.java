@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "accounts")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class AccountEntity {
 
@@ -20,4 +19,21 @@ public class AccountEntity {
     private String accountId;
 
     private String documentNumber;
+    @Version
+    private Integer version;
+
+    public AccountEntity(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public AccountEntity(String accountId, String documentNumber) {
+        this.accountId = accountId;
+        this.documentNumber = documentNumber;
+    }
+
+    public AccountEntity(String accountId, String documentNumber, Integer version) {
+        this.accountId = accountId;
+        this.documentNumber = documentNumber;
+        this.version = version;
+    }
 }

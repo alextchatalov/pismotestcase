@@ -10,4 +10,5 @@ import lombok.Getter;
 public class Account {
     private String accountId;
     private String documentNumber;
+    private Integer version;
 }
